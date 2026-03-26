@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevHub</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+    }
+
+    header p {
+        opacity: 0.7;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 500px;
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        margin: 15px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    input {
+        width: 70%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 8px;
+        background: #38bdf8;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0ea5e9;
+        transform: scale(1.05);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        background: rgba(255,255,255,0.1);
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        opacity: 0.6;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚀 DevHub</h1>
+    <p>Practice Git like a real developer</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📌 Make a Commit</h2>
+        <input type="text" id="commitInput" placeholder="Enter commit message">
+        <button onclick="addCommit()">Commit</button>
+    </div>
+
+    <div class="card">
+        <h2>🧾 Commit History</h2>
+        <ul id="commitList"></ul>
+    </div>
+
+</div>
+
+<footer>
+    <p>Built with 💻 HTML, CSS & JS (Single File)</p>
+</footer>
+
+<script>
+    function addCommit() {
+        const input = document.getElementById("commitInput");
+        const message = input.value.trim();
+
+        if (message === "") {
+            alert("Enter a commit message!");
+            return;
+        }
+
+        const list = document.getElementById("commitList");
+        const li = document.createElement("li");
+
+        const time = new Date().toLocaleTimeString();
+
+        li.innerHTML = `
+            <span>✔ ${message}</span>
+            <small>${time}</small>
+        `;
+
+        list.prepend(li); // newest on top
+        input.value = "";
+
+        saveCommits();
+    }
+
+    function saveCommits() {
+        localStorage.setItem("commits", document.getElementById("commitList").innerHTML);
+    }
+
+    function loadCommits() {
+        const data = localStorage.getItem("commits");
+        if (data) {
+            document.getElementById("commitList").innerHTML = data;
+        }
+    }
+
+    loadCommits();
+</script>
+
+</body>
+</html>
